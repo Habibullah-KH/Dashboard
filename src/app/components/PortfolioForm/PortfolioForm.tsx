@@ -9,7 +9,6 @@ export default function PortfolioForm() {
 
 {/* form and media container */}
 <div
-className='md:flex justify-center'
 >
 <PortfolioTextFields/>
 <PortfolioMediaUploader/>
