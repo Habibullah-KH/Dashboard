@@ -8,7 +8,7 @@ export default function PortfolioForm() {
 <div className='h-screen flex justify-center items-center'>{/**parent container*/}
 
 {/* form and media container */}
-<div
+<div className='w-3xl'
 >
 <PortfolioTextFields/>
 <PortfolioMediaUploader/>

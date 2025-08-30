@@ -1,0 +1,37 @@
+/* .image_upload_style{
+    border: 2px solid #07f49e;
+    border-radius: 0.5rem;
+    border-style: dashed;
+    transition: 0.3s ease-in-out;
+}
+
+.image_upload_style:hover{
+    background: var(--gradient-primary)
+} */
+
+.image_upload_style {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #07f49e;
+    border-radius: 0.5rem;
+    border-style: dashed;
+}
+
+.image_upload_style:hover{
+    border: 2px solid transparent;
+    transition: 0.3s ease-in-out;
+}
+
+.image_upload_style::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: -1;
+}
+
+.image_upload_style:hover::before {
+    opacity: 1;
+}
