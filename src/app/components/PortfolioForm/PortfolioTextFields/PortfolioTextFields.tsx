@@ -3,8 +3,8 @@ import React from 'react'
 export default function PortfolioTextFields() {
   return (
     <>
-    <div className='flex justify-center p-5 border-2 border-red-300'>
-<form className='flex flex-col w-full border-2 border-amber-300'>
+    <div className='flex justify-center p-5 '>
+<form className='flex flex-col w-full border-b-2 border-gray-300'>
   <input 
   className='border-none focus:outline-none text-3xl '
   type="text" 
