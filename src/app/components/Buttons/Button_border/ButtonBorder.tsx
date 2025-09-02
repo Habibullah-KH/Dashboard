@@ -10,12 +10,11 @@ interface ButtonBorderProps {
 
 const ButtonBorder: React.FC<ButtonBorderProps> = ({ children }) => {
   return (
-    <button
+    <div
       className={`${'btn-border'}`}
-      type="button" 
     >
       {children}
-    </button>
+    </div>
   );
 };
 

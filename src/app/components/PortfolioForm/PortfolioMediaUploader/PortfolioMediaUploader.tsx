@@ -21,7 +21,8 @@ export default function PortfolioMediaUploader() {
     accept: {
       "image/jpeg" : [".jpeg", ".jpg"],
       "image/png" : [".png"],
-    }
+    },
+    multiple: false,
   })
 
   const allowedExtensions = ["jpg", "jpeg", "png"];
@@ -78,14 +79,14 @@ export default function PortfolioMediaUploader() {
           /> */}
 
 
-{image.map((img) => (
-  <span key={img.name}>{img.name}</span>
-))}
 
 
           <span className="pl-2">or drop an image file</span>
         </div>
       </div>
+      {
+      image ? <span >{image.name}</span> : <p>kichui nai</p>
+      }
     </div>
   );
 }
