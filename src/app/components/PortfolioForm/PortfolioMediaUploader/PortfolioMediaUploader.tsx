@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonBorder from "../../Buttons/Button_border/ButtonBorder";
 import "./media_style.css";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
+import ImageUpload from "./ImageUpload";
 
 export default function PortfolioMediaUploader() {
   const [image, setImage] = useState<File | null>(null);
-
+console.log(image);
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
   setImage(acceptedFiles[0])
@@ -47,7 +48,7 @@ export default function PortfolioMediaUploader() {
   }, [image]);
 
   return (
-    <div className="text-sm p-5 flex items-center justify-center">
+    <div className="text-sm p-5 flex flex-col items-center justify-center">
  <div
         {...getRootProps()} // 👈 spread dropzone props here
 
@@ -63,30 +64,12 @@ export default function PortfolioMediaUploader() {
             <ButtonBorder>Upload image</ButtonBorder>
           </button>
 
-          {/* <input
-            ref={fileInputRef}
-            id="image"
-            name="image"
-            type="file"
-            accept="image/jpeg, image/png, image/jpg"
-            onChange={(e) => {
-              if (e.target.files && e.target.files.length > 0) {
-                setImage(e.target.files[0]);
-              }
-            }}
-            className="opacity-0 absolute w-0 h-0"
-            required
-          /> */}
-
-
-
 
           <span className="pl-2">or drop an image file</span>
         </div>
-      </div>
-      {
-      image ? <span >{image.name}</span> : <p>kichui nai</p>
-      }
+ </div>
+
+<ImageUpload imageData={image}/>
     </div>
   );
 }
