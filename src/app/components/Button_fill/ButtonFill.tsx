@@ -1,7 +1,10 @@
-import { useTheme } from '../../Theme/useTheme';
 import './buttonFill.css'
-export default function ButtonFill({children}){
-        const {darkMode} = useTheme();
+
+type buttonFillProps = {
+    children:React.ReactNode;
+}
+
+export default function ButtonFill({children} : buttonFillProps){
     return(
         <>
         <div className="button_container">

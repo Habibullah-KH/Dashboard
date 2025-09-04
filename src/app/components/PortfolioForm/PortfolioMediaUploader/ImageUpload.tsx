@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
+import ButtonFill from '../../Button_fill/ButtonFill';
 
 type ImageUploadProps = {imageData: File | null ; };
 
@@ -15,6 +16,7 @@ export default function ImageUpload({imageData} : ImageUploadProps) {
         }
     }, [imageData])
 console.log(previewUrl);
+
   return (
     <>
     <div className={` mt-5 ${imageData ? "block" : "hidden"} `}>
@@ -37,13 +39,13 @@ console.log(previewUrl);
 </div> {/*image | image view*/}
 </div>
 
-<div className='mt-5'>
-  <button>
-    Cancel
+<div className='mt-5 w-full flex flex-col gap-2'>
+  <button className='w-full'>
+    <ButtonFill>Cancel</ButtonFill>
   </button>
 
-  <button>
-    Upload
+  <button className='w-full'>
+    <ButtonFill>Upload</ButtonFill>
   </button>
 </div>
 
