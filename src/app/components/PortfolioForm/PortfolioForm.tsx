@@ -5,7 +5,7 @@ import PortfolioMediaUploader from './PortfolioMediaUploader/PortfolioMediaUploa
 export default function PortfolioForm() {
   return (
 <>
-<div className='h-screen flex justify-center items-center'>{/**parent container*/}
+<div className='h-full flex justify-center items-center'>{/**parent container*/}
 
 {/* form and media container */}
 <div className='w-3xl'

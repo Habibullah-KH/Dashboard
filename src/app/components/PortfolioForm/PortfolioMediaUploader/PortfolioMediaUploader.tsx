@@ -69,7 +69,7 @@ console.log(image);
         </div>
  </div>
 
-<ImageUpload imageData={image}/>
+<ImageUpload imageData={image} onCancel={() => setImage(null)}/>
     </div>
   );
 }

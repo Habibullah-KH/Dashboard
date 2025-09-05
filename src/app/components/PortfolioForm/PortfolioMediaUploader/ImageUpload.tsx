@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';
 import { FiXCircle } from "react-icons/fi";
 
-type ImageUploadProps = {imageData: File | null ; };
+type ImageUploadProps = {imageData: File | null ;
+onCancel: () => void;
+ };
 
-export default function ImageUpload({imageData} : ImageUploadProps) {
+export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [ModalComponent, setModalComponent] = useState<any>(null);
@@ -59,7 +61,9 @@ export default function ImageUpload({imageData} : ImageUploadProps) {
 <div className='mt-5 w-full flex flex-col gap-2'>
   {!modalIsOpen && (
     <>
-      <button className='w-full'>
+      <button 
+      onClick={onCancel}
+      className='w-full'>
         <ButtonFill>Cancel</ButtonFill>
       </button>
       <button className='w-full'>
