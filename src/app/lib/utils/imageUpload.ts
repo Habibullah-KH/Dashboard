@@ -10,6 +10,10 @@ export const imageUpload = async (imageFile: File): Promise<string | null> => {
       method: "POST",
       body: formData,
     });
+    if (!response.ok) {
+      console.error("Upload failed with status:", response.status);
+      return null;
+    }
 
     // Define what the API response looks like
     const data: {

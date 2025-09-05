@@ -2,6 +2,9 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';
 import { FiXCircle } from "react-icons/fi";
+import { imageUpload } from '@/app/lib/utils/imageUpload';
+import { toast } from 'react-toastify';
+import Loading from '../../Loading/Loading';
 
 type ImageUploadProps = {imageData: File | null ;
 onCancel: () => void;
@@ -11,6 +14,7 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [ModalComponent, setModalComponent] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(()=>{
         if(imageData){
@@ -33,6 +37,40 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
+// image upload to imagebb function
+
+const handleImageUpload = async () => {
+  if(!imageData){
+    return;
+  }
+  setLoading(true);
+   const imageUrl = await imageUpload(imageData);
+  setLoading(false);
+  onCancel();
+   if(imageUrl){
+    toast.success('Image upload successfully');
+   }
+   else{
+    toast.error('Image upload failed');
+   }
+}
+
+if (loading) {
+  return (
+    <div
+     style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(255,255,255,0.8)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Loading />
+        </div>
+  )
+}
   return (
     <>
     <div className={`mt-5 ${imageData ? "block" : "hidden"} `}>
@@ -41,7 +79,7 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
 
 <h2>{imageData?.name}</h2>
 <p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} </p>
-</div> {/*image text info*/}
+</div> {/*image text info end*/}
     
 <div> {/*image | image view*/}
 <div>
@@ -55,7 +93,7 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
 />
 </button>
 </div>
-</div> {/*image | image view*/}
+</div> {/*image | image view end*/}
 </div>
 
 <div className='mt-5 w-full flex flex-col gap-2'>
@@ -66,7 +104,9 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
       className='w-full'>
         <ButtonFill>Cancel</ButtonFill>
       </button>
-      <button className='w-full'>
+      <button 
+      onClick={handleImageUpload}
+      className='w-full'>
         <ButtonFill>Upload</ButtonFill>
       </button>
     </>
@@ -88,15 +128,18 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
               alignItems: 'center',
               justifyContent: 'center',
               maxWidth: '600px',
+              maxHeight: '800px',
               margin: 'auto',
             },
           }}
         >
           <div className=' w-full'>
-
-          <button className='text-3xl hover:text-red-600 duration-700 flex flex-start fixed top-14 left-96' onClick={closeModal} style={{ marginBottom: '1rem' }}>
+      <div>
+          <button className='text-3xl hover:text-red-600 duration-700 top-14 left-96' onClick={closeModal} style={{ marginBottom: '1rem' }}>
             <FiXCircle />
           </button>
+      </div>
+
           </div>
           {previewUrl && (
             <Image
