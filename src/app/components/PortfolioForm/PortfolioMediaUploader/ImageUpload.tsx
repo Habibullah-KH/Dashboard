@@ -5,6 +5,7 @@ import { FiXCircle } from "react-icons/fi";
 import { imageUpload } from '@/app/lib/utils/imageUpload';
 import { toast } from 'react-toastify';
 import Loading from '../../Loading/Loading';
+import useLocalStorage from '@/app/hooks/useLocalStorage';
 
 type ImageUploadProps = {imageData: File | null ;
 onCancel: () => void;
@@ -16,6 +17,9 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [ModalComponent, setModalComponent] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
+    const {value, saveValue, addValue, clearValue} = useLocalStorage("url", []);
+
+    console.log(value);
     useEffect(()=>{
         if(imageData){
             const url = URL.createObjectURL(imageData);
@@ -45,6 +49,7 @@ const handleImageUpload = async () => {
   }
   setLoading(true);
    const imageUrl = await imageUpload(imageData);
+  addValue(imageUrl);
   setLoading(false);
   onCancel();
    if(imageUrl){
@@ -113,7 +118,8 @@ if (loading) {
   )}
 </div>
 
-    </div>
+
+ </div> {/*parent container end*/}
 
          {/* Only render Modal if loaded */}
       {ModalComponent && (
