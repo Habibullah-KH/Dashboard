@@ -6,6 +6,7 @@ import { imageUpload } from '@/app/lib/utils/imageUpload';
 import { toast } from 'react-toastify';
 import Loading from '../../Loading/Loading';
 import useLocalStorage from '@/app/hooks/useLocalStorage';
+import ImageCard from './component/ImageCard';
 
 type ImageUploadProps = {imageData: File | null ;
 onCancel: () => void;
@@ -17,10 +18,10 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [ModalComponent, setModalComponent] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const {value, saveValue, addValue, clearValue} = useLocalStorage("url", []);
+    const {addValue} = useLocalStorage("url", []);
 
-    console.log(value);
     useEffect(()=>{
+
         if(imageData){
             const url = URL.createObjectURL(imageData);
             setPreviewUrl(url)
@@ -89,13 +90,16 @@ if (loading) {
 <div> {/*image | image view*/}
 <div>
 <button onClick={openModal} style={{ border: 'none', background: 'none', padding: 0 }}>
+  {previewUrl && (
 <Image
-  src={previewUrl ?? ""}
+  src={previewUrl}
   alt={imageData?.name || "Uploaded image"}
   width={200}
   height={200}
   style={{ cursor: 'pointer' }}
 />
+  )}
+
 </button>
 </div>
 </div> {/*image | image view end*/}
@@ -117,7 +121,6 @@ if (loading) {
     </>
   )}
 </div>
-
 
  </div> {/*parent container end*/}
 

@@ -6,17 +6,21 @@ import "./media_style.css";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 import ImageUpload from "./ImageUpload";
+import UseLocalStorage from "@/app/hooks/useLocalStorage";
+import ImageCard from "./component/ImageCard";
 
 export default function PortfolioMediaUploader() {
   const [image, setImage] = useState<File | null>(null);
-console.log(image);
+
+  const {value} = UseLocalStorage("url", [])
+console.log(value);
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
   setImage(acceptedFiles[0])
  }
   }
 
-  console.log(image);
+
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,
     accept: {
@@ -70,6 +74,13 @@ console.log(image);
  </div>
 
 <ImageUpload imageData={image} onCancel={() => setImage(null)}/>
+
+
+<div>
+  {value.map((uri, i) => <ImageCard key={i} value={uri}/>)}
+  {/* {value.map(data => console.log(data))} */}
+</div>
+
     </div>
   );
 }
