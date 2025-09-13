@@ -6,17 +6,14 @@ import "./media_style.css";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 import ImageUpload from "./ImageUpload";
-import UseLocalStorage from "@/app/hooks/useLocalStorage";
-import ImageCard from "./component/ImageCard";
+import { imageUpload } from "@/app/lib/utils/imageUpload";
 
 export default function PortfolioMediaUploader() {
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File []>([]);
 
-  const {value} = UseLocalStorage("url", [])
-console.log(value);
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
-  setImage(acceptedFiles[0])
+  setImages(acceptedFiles)
  }
   }
 
@@ -27,29 +24,29 @@ console.log(value);
       "image/jpeg" : [".jpeg", ".jpg"],
       "image/png" : [".png"],
     },
-    multiple: false,
+    multiple: true,
   })
 
   const allowedExtensions = ["jpg", "jpeg", "png"];
 
   const checkImageFormat = () => {
-    if (!image){
-      return toast.error('please upload image');
+
+    for (const image of images){
+
+      const check = image.name
+        .substring(image.name.lastIndexOf(".") + 1)
+        .toLowerCase();
+  
+      if (!allowedExtensions.includes(check)) {
+        setImages([]);
+        return toast.error("Please upload a valid image (jpg, jpeg, png)");
+      }
     };
-
-    const check = image.name
-      .substring(image.name.lastIndexOf(".") + 1)
-      .toLowerCase();
-
-    if (!allowedExtensions.includes(check)) {
-      setImage(null);
-      return toast.error("Please upload a valid image (jpg, jpeg, png)");
     }
-  };
 
   useEffect(() => {
-    if (image) checkImageFormat();
-  }, [image]);
+    if (images) checkImageFormat();
+  }, [images]);
 
   return (
     <div className="text-sm p-5 flex flex-col items-center justify-center">
@@ -68,17 +65,14 @@ console.log(value);
             <ButtonBorder>Upload image</ButtonBorder>
           </button>
 
-
           <span className="pl-2">or drop an image file</span>
         </div>
  </div>
 
-<ImageUpload imageData={image} onCancel={() => setImage(null)}/>
-
+{images.map((image, index) => <ImageUpload key={index} imageData={image} onCancel={() => setImages(images.filter((_, i) => i != index))}/>)}
 
 <div>
-  {value.map((uri, i) => <ImageCard key={i} value={uri}/>)}
-  {/* {value.map(data => console.log(data))} */}
+
 </div>
 
     </div>

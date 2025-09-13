@@ -5,8 +5,6 @@ import { FiXCircle } from "react-icons/fi";
 import { imageUpload } from '@/app/lib/utils/imageUpload';
 import { toast } from 'react-toastify';
 import Loading from '../../Loading/Loading';
-import useLocalStorage from '@/app/hooks/useLocalStorage';
-import ImageCard from './component/ImageCard';
 
 type ImageUploadProps = {imageData: File | null ;
 onCancel: () => void;
@@ -17,8 +15,6 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [ModalComponent, setModalComponent] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
-    const {addValue} = useLocalStorage("url", []);
 
     useEffect(()=>{
 
@@ -50,7 +46,6 @@ const handleImageUpload = async () => {
   }
   setLoading(true);
    const imageUrl = await imageUpload(imageData);
-  addValue(imageUrl);
   setLoading(false);
   onCancel();
    if(imageUrl){
