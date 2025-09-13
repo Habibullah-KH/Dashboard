@@ -39,7 +39,6 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
   const closeModal = () => setModalIsOpen(false);
 
 // image upload to imagebb function
-
 const handleImageUpload = async () => {
   if(!imageData){
     return;
@@ -74,12 +73,13 @@ if (loading) {
 }
   return (
     <>
-    <div className={`mt-5 ${imageData ? "block" : "hidden"} `}>
-<div className='flex flex-col-reverse items-center'>
-<div> {/*image text info*/}
+    <div className={`${imageData ? "block" : "hidden"} flex justify-between  w-full`}>
 
+<div className='flex flex-row-reverse gap-2 items-center'>
+
+<div> {/*image text info*/}
 <h2>{imageData?.name}</h2>
-<p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} </p>
+<p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} KB</p>
 </div> {/*image text info end*/}
     
 <div> {/*image | image view*/}
@@ -89,9 +89,10 @@ if (loading) {
 <Image
   src={previewUrl}
   alt={imageData?.name || "Uploaded image"}
-  width={200}
-  height={200}
-  style={{ cursor: 'pointer' }}
+  width={50}
+  height={50}
+  style={{ cursor: 'pointer', borderRadius: '10px', height: '50px', width: '50px'}}
+
 />
   )}
 
@@ -100,26 +101,21 @@ if (loading) {
 </div> {/*image | image view end*/}
 </div>
 
-<div className='mt-5 w-full flex flex-col gap-2'>
+<div className='mt-5 flex items-baseline gap-2'>
   {!modalIsOpen && (
     <>
       <button 
       onClick={onCancel}
-      className='w-full'>
+      className=''>
         <ButtonFill>Cancel</ButtonFill>
       </button>
-      <button 
-      onClick={handleImageUpload}
-      className='w-full'>
-        <ButtonFill>Upload</ButtonFill>
-      </button>
+
     </>
   )}
 </div>
 
  </div> {/*parent container end*/}
-
-         {/* Only render Modal if loaded */}
+      {/* Only render Modal if loaded */}
       {ModalComponent && (
         <ModalComponent
           isOpen={modalIsOpen}

@@ -69,11 +69,10 @@ export default function PortfolioMediaUploader() {
         </div>
  </div>
 
+<div className="w-full p-3 m-3">
 {images.map((image, index) => <ImageUpload key={index} imageData={image} onCancel={() => setImages(images.filter((_, i) => i != index))}/>)}
-
-<div>
-
 </div>
+
 
     </div>
   );
