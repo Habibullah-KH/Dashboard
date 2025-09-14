@@ -27,22 +27,23 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     }, [imageData])
 
       // Dynamically import react-modal only on client
-  useEffect(() => {
-    (async () => {
-      const modal = (await import('react-modal')).default;
-      modal.setAppElement('body');
-      setModalComponent(() => modal);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const modal = (await import('react-modal')).default;
+  //     modal.setAppElement('body');
+  //     setModalComponent(() => modal);
+  //   })();
+  // }, []);
 
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  // const openModal = () => setModalIsOpen(true);
+  // const closeModal = () => setModalIsOpen(false);
 
 // image upload to imagebb function
 const handleImageUpload = async () => {
   if(!imageData){
     return;
   }
+
   setLoading(true);
    const imageUrl = await imageUpload(imageData);
   setLoading(false);
@@ -73,9 +74,9 @@ if (loading) {
 }
   return (
     <>
-    <div className={`${imageData ? "block" : "hidden"} flex justify-between  w-full`}>
+    <div className={`${imageData ? "block" : "hidden"} flex justify-between items-center w-full`}>
 
-<div className='flex flex-row-reverse gap-2 items-center'>
+<div className='flex flex-row-reverse items-center gap-2 '>
 
 <div> {/*image text info*/}
 <h2>{imageData?.name}</h2>
@@ -84,7 +85,7 @@ if (loading) {
     
 <div> {/*image | image view*/}
 <div>
-<button onClick={openModal} style={{ border: 'none', background: 'none', padding: 0 }}>
+<button style={{ border: 'none', background: 'none', padding: 0 }}>
   {previewUrl && (
 <Image
   src={previewUrl}
@@ -101,7 +102,7 @@ if (loading) {
 </div> {/*image | image view end*/}
 </div>
 
-<div className='mt-5 flex items-baseline gap-2'>
+<div className='flex items-center gap-2'>
   {!modalIsOpen && (
     <>
       <button 
@@ -115,7 +116,7 @@ if (loading) {
 </div>
 
  </div> {/*parent container end*/}
-      {/* Only render Modal if loaded */}
+      {/* Only render Modal if loaded 
       {ModalComponent && (
         <ModalComponent
           isOpen={modalIsOpen}
@@ -151,7 +152,7 @@ if (loading) {
             />
           )}
         </ModalComponent>
-      )}
+      )}*/}
     </>
   )
 }
