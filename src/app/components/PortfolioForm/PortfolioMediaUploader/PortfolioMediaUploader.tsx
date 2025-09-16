@@ -10,10 +10,12 @@ import { imageUpload } from "@/app/lib/utils/imageUpload";
 
 export default function PortfolioMediaUploader() {
   const [images, setImages] = useState<File []>([]);
+console.log(images);
 
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
-  setImages(acceptedFiles)
+  // setImages(acceptedFiles);
+  setImages( (prev) => [...prev, ...acceptedFiles]);
  }
   }
 
@@ -27,26 +29,26 @@ export default function PortfolioMediaUploader() {
     multiple: true,
   })
 
-  const allowedExtensions = ["jpg", "jpeg", "png"];
+  // const allowedExtensions = ["jpg", "jpeg", "png"];
 
-  const checkImageFormat = () => {
+  // const checkImageFormat = () => {
 
-    for (const image of images){
+  //   for (const image of images){
 
-      const check = image.name
-        .substring(image.name.lastIndexOf(".") + 1)
-        .toLowerCase();
+  //     const check = image.name
+  //       .substring(image.name.lastIndexOf(".") + 1)
+  //       .toLowerCase();
   
-      if (!allowedExtensions.includes(check)) {
-        setImages([]);
-        return toast.error("Please upload a valid image (jpg, jpeg, png)");
-      }
-    };
-    }
+  //     if (!allowedExtensions.includes(check)) {
+  //       setImages([]);
+  //       return toast.error("Please upload a valid image (jpg, jpeg, png)");
+  //     }
+  //   };
+  //   }
 
-  useEffect(() => {
-    if (images) checkImageFormat();
-  }, [images]);
+  // useEffect(() => {
+  //   if (images) checkImageFormat();
+  // }, [images]);
 
   return (
     <div className="text-sm p-5 flex flex-col items-center justify-center">
@@ -69,9 +71,14 @@ export default function PortfolioMediaUploader() {
         </div>
  </div>
 
-<div className="w-full p-3 m-3">
+{
+  images.length ? 
+<div className="w-full p-3 mt-3">
 {images.map((image, index) => <ImageUpload key={index} imageData={image} onCancel={() => setImages(images.filter((_, i) => i != index))}/>)}
 </div>
+
+: null
+}
 
 
     </div>

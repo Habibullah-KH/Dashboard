@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';
-import { FiXCircle } from "react-icons/fi";
 import { imageUpload } from '@/app/lib/utils/imageUpload';
 import { toast } from 'react-toastify';
 import Loading from '../../Loading/Loading';
+import Modal from '../../modal/Modal';
 
 type ImageUploadProps = {imageData: File | null ;
 onCancel: () => void;
@@ -13,9 +13,8 @@ onCancel: () => void;
 export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [ModalComponent, setModalComponent] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
+console.log(modalIsOpen);
     useEffect(()=>{
 
         if(imageData){
@@ -74,7 +73,10 @@ if (loading) {
 }
   return (
     <>
-    <div className={`${imageData ? "block" : "hidden"} flex justify-between items-center w-full`}>
+    <div className={`${imageData ? "block" : "hidden"}
+     flex justify-between items-center p-2 w-full m-2 bg-pink-300/8 rounded-xl
+    
+    `}>
 
 <div className='flex flex-row-reverse items-center gap-2 '>
 
@@ -85,9 +87,12 @@ if (loading) {
     
 <div> {/*image | image view*/}
 <div>
-<button style={{ border: 'none', background: 'none', padding: 0 }}>
+<button
+className='flex'
+style={{ border: 'none', background: 'none', padding: 0 }}>
   {previewUrl && (
 <Image
+  onClick={ () => setModalIsOpen(true)}
   src={previewUrl}
   alt={imageData?.name || "Uploaded image"}
   width={50}
@@ -107,7 +112,7 @@ if (loading) {
     <>
       <button 
       onClick={onCancel}
-      className=''>
+      className='-z-0'>
         <ButtonFill>Cancel</ButtonFill>
       </button>
 
@@ -115,6 +120,15 @@ if (loading) {
   )}
 </div>
 
+<Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
+  <Image
+  src={previewUrl ?? ''}
+  alt={imageData?.name || "Uploaded image"}
+  width={500}
+  height={500}
+  style={{ objectFit: 'contain' }}
+/>
+  </Modal>
  </div> {/*parent container end*/}
       {/* Only render Modal if loaded 
       {ModalComponent && (
