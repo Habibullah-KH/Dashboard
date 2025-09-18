@@ -1,3 +1,4 @@
+"use client";
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';

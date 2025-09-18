@@ -9,7 +9,8 @@ import ImageUpload from "./ImageUpload";
 import { imageUpload } from "@/app/lib/utils/imageUpload";
 
 export default function PortfolioMediaUploader() {
-  const [images, setImages] = useState<File []>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [isClient, setIsClient] = useState(false);
 console.log(images);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -50,15 +51,20 @@ console.log(images);
   //   if (images) checkImageFormat();
   // }, [images]);
 
+    useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
   return (
     <div className="text-sm p-5 flex flex-col items-center justify-center">
  <div
-        {...getRootProps()} // 👈 spread dropzone props here
+        {...getRootProps()} // spread dropzone props here
 
         className={`flex flex-col items-center justify-center h-[240px] w-full image_upload_style 
           ${isDragActive ? "bg-green-100" : ""}`}
       >
-        <input {...getInputProps()} /> {/* 👈 handles both click + drag */}
+        <input {...getInputProps()} /> {/* handles both click + drag */}
 
         <img src="/image_icon.png" alt="Upload icon" className="w-12 h-12 mb-3" />
 

@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import PortfolioTextFields from './PortfolioTextFields/PortfolioTextFields';
 import PortfolioMediaUploader from './PortfolioMediaUploader/PortfolioMediaUploader';
