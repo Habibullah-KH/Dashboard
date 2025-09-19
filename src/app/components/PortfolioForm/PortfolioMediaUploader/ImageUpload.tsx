@@ -2,9 +2,6 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';
-import { imageUpload } from '@/app/lib/utils/imageUpload';
-import { toast } from 'react-toastify';
-import Loading from '../../Loading/Loading';
 import Modal from '../../modal/Modal';
 
 type ImageUploadProps = {imageData: File | null ;
@@ -13,9 +10,8 @@ onCancel: () => void;
 
 export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [loading, setLoading] = useState<boolean>(false);
-console.log(modalIsOpen);
+    const [modalIsOpen, setModalIsOpen] = useState(false);;
+
     useEffect(()=>{
 
         if(imageData){
@@ -26,52 +22,7 @@ console.log(modalIsOpen);
         }
     }, [imageData])
 
-      // Dynamically import react-modal only on client
-  // useEffect(() => {
-  //   (async () => {
-  //     const modal = (await import('react-modal')).default;
-  //     modal.setAppElement('body');
-  //     setModalComponent(() => modal);
-  //   })();
-  // }, []);
 
-  // const openModal = () => setModalIsOpen(true);
-  // const closeModal = () => setModalIsOpen(false);
-
-// image upload to imagebb function
-const handleImageUpload = async () => {
-  if(!imageData){
-    return;
-  }
-
-  setLoading(true);
-   const imageUrl = await imageUpload(imageData);
-  setLoading(false);
-  onCancel();
-   if(imageUrl){
-    toast.success('Image upload successfully');
-   }
-   else{
-    toast.error('Image upload failed');
-   }
-}
-
-if (loading) {
-  return (
-    <div
-     style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(255,255,255,0.8)',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <Loading />
-        </div>
-  )
-}
   return (
     <>
     <div className={`${imageData ? "block" : "hidden"}
@@ -121,53 +72,20 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
   )}
 </div>
 
-<Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
+{
+  previewUrl && (
+      <Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
   <Image
-  src={previewUrl ?? ''}
+  src={previewUrl}
   alt={imageData?.name || "Uploaded image"}
-  width={500}
-  height={500}
-  style={{ objectFit: 'contain' }}
+  width={300}
+  height={300}
+  style={{ objectFit: 'contain'}}
 />
   </Modal>
- </div> {/*parent container end*/}
-      {/* Only render Modal if loaded 
-      {ModalComponent && (
-        <ModalComponent
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Image Preview"
-          style={{
-            content: {
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              maxWidth: '600px',
-              maxHeight: '800px',
-              margin: 'auto',
-            },
-          }}
-        >
-          <div className=' w-full'>
-      <div>
-          <button className='text-3xl hover:text-red-600 duration-700 top-14 left-96' onClick={closeModal} style={{ marginBottom: '1rem' }}>
-            <FiXCircle />
-          </button>
-      </div>
-
-          </div>
-          {previewUrl && (
-            <Image
-              src={previewUrl}
-              alt={imageData?.name || "Uploaded image"}
-              width={500}
-              height={500}
-              style={{ objectFit: 'contain' }}
-            />
-          )}
-        </ModalComponent>
-      )}*/}
+  )
+  }
+ </div> 
     </>
   )
 }

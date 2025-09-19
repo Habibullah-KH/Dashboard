@@ -6,16 +6,18 @@ import "./media_style.css";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 import ImageUpload from "./ImageUpload";
-import { imageUpload } from "@/app/lib/utils/imageUpload";
 
-export default function PortfolioMediaUploader() {
-  const [images, setImages] = useState<File[]>([]);
+type propType = {
+  images: File[];
+  setImages: React.Dispatch<React.SetStateAction<File[]>>;
+};
+
+export default function PortfolioMediaUploader({images, setImages}:propType) {
   const [isClient, setIsClient] = useState(false);
 console.log(images);
 
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
-  // setImages(acceptedFiles);
   setImages( (prev) => [...prev, ...acceptedFiles]);
  }
   }
@@ -30,30 +32,28 @@ console.log(images);
     multiple: true,
   })
 
-  // const allowedExtensions = ["jpg", "jpeg", "png"];
+  const allowedExtensions = ["jpg", "jpeg", "png"];
 
-  // const checkImageFormat = () => {
+  const checkImageFormat = () => {
 
-  //   for (const image of images){
+    for (const image of images){
 
-  //     const check = image.name
-  //       .substring(image.name.lastIndexOf(".") + 1)
-  //       .toLowerCase();
+      const check = image.name
+        .substring(image.name.lastIndexOf(".") + 1)
+        .toLowerCase();
   
-  //     if (!allowedExtensions.includes(check)) {
-  //       setImages([]);
-  //       return toast.error("Please upload a valid image (jpg, jpeg, png)");
-  //     }
-  //   };
-  //   }
+      if (!allowedExtensions.includes(check)) {
+        setImages([]);
+        return toast.error("Please upload a valid image (jpg, jpeg, png)");
+      }
+    };
+    }
 
-  // useEffect(() => {
-  //   if (images) checkImageFormat();
-  // }, [images]);
-
-    useEffect(() => {
+  useEffect(() => {
+    if (images) checkImageFormat();
     setIsClient(true);
-  }, []);
+  }, [images]);
+
 
   if (!isClient) return null;
   return (

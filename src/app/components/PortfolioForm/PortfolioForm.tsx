@@ -1,19 +1,33 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import PortfolioTextFields from './PortfolioTextFields/PortfolioTextFields';
 import PortfolioMediaUploader from './PortfolioMediaUploader/PortfolioMediaUploader';
 import ButtonFill from '../Button_fill/ButtonFill';
 
 export default function PortfolioForm() {
+  const [title, setTitle] = useState('');
+  const [description, setdeScription] = useState('');
+  const [images, setImages] = useState<File[]>([]);
+
+  console.log(title, description, images);
   return (
 <>
-<div className='h-full flex flex-col justify-center items-center'>{/**parent container*/}
+<div className='h-full flex flex-col justify-center items-center p-5'>{/**parent container*/}
 
 {/* form and media container */}
 <div className='w-3xl'
 >
-<PortfolioTextFields/>
-<PortfolioMediaUploader/>
+<PortfolioTextFields 
+title={title} 
+description={description}
+onTitleChange={setTitle}
+onDescriptionChange={setdeScription}
+
+/>
+<PortfolioMediaUploader 
+images={images}
+setImages={setImages}
+/>
 
 </div>
 

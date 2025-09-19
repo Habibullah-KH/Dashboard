@@ -1,6 +1,19 @@
 import React from 'react'
 
-export default function PortfolioTextFields() {
+type propsType = {
+  title: string,
+  description: string,
+  onTitleChange: (value: string) => void;
+  onDescriptionChange: (value: string) => void;
+}
+export default function PortfolioTextFields(
+  {title,
+  description,
+  onTitleChange,
+  onDescriptionChange
+}:propsType)
+
+{
   return (
     <>
     <div className='flex justify-center p-5 '>
@@ -10,6 +23,8 @@ export default function PortfolioTextFields() {
   type="text" 
   id="fname" 
   name="fname"
+  value={title}
+  onChange={e => onTitleChange(e.target.value)}
   placeholder='Title'
   />
 
@@ -18,7 +33,8 @@ export default function PortfolioTextFields() {
   id='description'
   name='description'
   rows={12}
-
+  value={description}
+  onChange={e => onDescriptionChange(e.target.value)}
   placeholder='Description'
   />
 </form>
