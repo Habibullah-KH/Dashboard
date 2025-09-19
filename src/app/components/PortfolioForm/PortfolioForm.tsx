@@ -5,15 +5,18 @@ import PortfolioMediaUploader from './PortfolioMediaUploader/PortfolioMediaUploa
 import ButtonFill from '../Button_fill/ButtonFill';
 import { toast } from 'react-toastify';
 import Loading from '../Loading/Loading';
+import { imageUpload } from '@/app/lib/utils/imageUpload';
 
 export default function PortfolioForm() {
   const [title, setTitle] = useState('');
-  const [description, setdeScription] = useState('');
+  const [description, setDescription] = useState('');
   const [images, setImages] = useState<File[]>([]);
+
+  const [imagebbUrl, setImagebbUrl] = useState<File[]>([]);
 
   const [loading, setLoading] = useState(false);
   const data = {
-    title:title, description:description, images:images
+    title:title, description:description, images:imagebbUrl
   }
 
 
@@ -22,8 +25,26 @@ export default function PortfolioForm() {
       return toast.error('Please fill the form properly');
     }
     setLoading(true);
+
     try{
-      const res = await fetch("http://localhost:3000/api/portfolioData", {
+
+      //image upload on mongoDB - 1
+      // const imgeUrls = await Promise.all(images.map(img => imageUpload(img)))
+      // console.log(imgeUrls);
+
+      //image upload on mongoDB - 2
+      const imageUrls = [];
+
+      for (const img of images){
+        const url = await imageUpload(img);
+        imageUrls.push(url);
+      }
+
+      setImagebbUrl(imageUrls && []);
+console.log(imagebbUrl);
+
+      //data POST (upload) mongoDB
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`, {
       method: "POST",
       body: JSON.stringify(data),
     }
@@ -39,6 +60,9 @@ export default function PortfolioForm() {
     }
     finally{
       setLoading(false);
+      setImages([]);
+      setTitle('');
+      setDescription('');
     }
   }
 
@@ -57,7 +81,7 @@ export default function PortfolioForm() {
 title={title} 
 description={description}
 onTitleChange={setTitle}
-onDescriptionChange={setdeScription}
+onDescriptionChange={setDescription}
 
 />
 <PortfolioMediaUploader 
