@@ -6,17 +6,26 @@ import ButtonFill from '../Button_fill/ButtonFill';
 import { toast } from 'react-toastify';
 import Loading from '../Loading/Loading';
 import { imageUpload } from '@/app/lib/utils/imageUpload';
+import TechSkill from './TechSkill/TechSkill';
 
 export default function PortfolioForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [liveLink, setLiveLink] = useState('');
   const [images, setImages] = useState<File[]>([]);
-
+  const [skillIcon, setSkillIcon] = useState<File[]>([]);
+  const [skill, setSkill] = useState<string>('');
   const [imagebbUrl, setImagebbUrl] = useState<File[]>([]);
-
   const [loading, setLoading] = useState(false);
+
+  // final object for mongodb
   const data = {
-    title:title, description:description, images:imagebbUrl
+    title:title, 
+    description:description, 
+    images:imagebbUrl,
+    liveLink:liveLink,
+
+
   }
 
 
@@ -41,7 +50,6 @@ export default function PortfolioForm() {
       }
 
       setImagebbUrl(imageUrls && []);
-console.log(imagebbUrl);
 
       //data POST (upload) mongoDB
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`, {
@@ -80,13 +88,22 @@ console.log(imagebbUrl);
 <PortfolioTextFields 
 title={title} 
 description={description}
+liveLInk={liveLink}
 onTitleChange={setTitle}
 onDescriptionChange={setDescription}
+onLiveLInkChange={setLiveLink}
 
 />
 <PortfolioMediaUploader 
 images={images}
 setImages={setImages}
+/>
+
+<TechSkill
+skill={skill}
+setSkill={setSkill}
+skillIcon={skillIcon}
+setSkillIcon={setSkillIcon}
 />
 
 </div>
