@@ -5,6 +5,8 @@ import ButtonBorder from "../../Buttons/Button_border/ButtonBorder";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 import ImageUpload from "../PortfolioMediaUploader/ImageUpload";
+import IconUpload from "../PortfolioMediaUploader/IconUpload";
+import ButtonFill from "../../Button_fill/ButtonFill";
 
 type propType = {
   skill:string;
@@ -26,7 +28,7 @@ console.log(skillIcon);
 
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
-  setSkillIcon( (prev) => [...prev, ...acceptedFiles]);
+  setSkillIcon(acceptedFiles);
  }
   }
 
@@ -36,9 +38,7 @@ console.log(skillIcon);
     accept: {
       "image/jpeg" : [".jpeg", ".jpg"],
       "image/png" : [".png"],
-    },
-    multiple: true,
-  })
+    }  })
 
   const allowedExtensions = ["jpg", "jpeg", "png"];
 
@@ -65,12 +65,28 @@ console.log(skillIcon);
 
   if (!isClient) return null;
   return (
-    <div className="text-sm p-5 flex flex-col items-center justify-center">
+    <>
+<h2>Select skill</h2>
+
+ <div className="text-sm p-5 flex items-center justify-center">
+
+<div>
+  <form>
+{/* skill name */}
+  <input 
+  className='text-md '
+  type="text" 
+  id="fname" 
+  name="fname"
+  placeholder='Title'
+  />
+  </form>
+</div>
+
+  {/* image upload section */}
  <div
         {...getRootProps()}
-
-        className={`flex items-center justify-center p-2 rounded-r-2xl`}
-      >
+        className={`flex items-center justify-center p-2 rounded-r-2xl`}>
         <input {...getInputProps()} /> {/* handles both click + drag */}
 
         <img src="/image_icon.png" alt="Upload icon" className="w-5 h-5 mr-2" />
@@ -84,14 +100,18 @@ console.log(skillIcon);
 
 {
   skillIcon.length ? 
-<div className="w-full p-3 mt-3">
-{skillIcon.map((image, index) => <ImageUpload key={index} imageData={image} onCancel={() => setSkillIcon(skillIcon.filter((_, i) => i != index))}/>)}
+<div>
+{skillIcon.map((image, index) => <IconUpload key={index} imageData={image} onCancel={() => setSkillIcon(skillIcon.filter((_, i) => i != index))}/>)}
 </div>
 
 : null
 }
 
+<button>
+  <ButtonFill>select</ButtonFill>
+</button>
 
-    </div>
+ </div>
+    </>
   );
 }

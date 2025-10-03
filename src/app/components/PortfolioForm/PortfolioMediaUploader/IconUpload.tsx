@@ -1,14 +1,14 @@
 "use client";
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import ButtonFill from '../../Button_fill/ButtonFill';
 import Modal from '../../modal/Modal';
+import { FiX } from "react-icons/fi";
 
 type iconUpload = {imageData: File | null ;
 onCancel: () => void;
  };
 
-export default function ImageUpload({imageData, onCancel} : iconUpload) {
+export default function IconUpload({imageData, onCancel} : iconUpload) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);;
 
@@ -26,15 +26,11 @@ export default function ImageUpload({imageData, onCancel} : iconUpload) {
   return (
     <>
     <div className={`${imageData ? "block" : "hidden"}
-     flex justify-between items-center p-2 w-full m-2 bg-pink-300/8 rounded-xl
+     relative flex items-center p-2 m-2 rounded-xl w-fit
     
     `}>
 
 <div className='flex flex-row-reverse items-center gap-2 '>
-
-<div> {/*image text info*/}
-<p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} KB</p>
-</div> {/*image text info end*/}
     
 <div> {/*image | image view*/}
 <div>
@@ -49,7 +45,6 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
   width={50}
   height={50}
   style={{ cursor: 'pointer', borderRadius: '10px', height: '50px', width: '50px'}}
-
 />
   )}
 
@@ -58,13 +53,13 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
 </div> {/*image | image view end*/}
 </div>
 
-<div className='flex items-center gap-2'>
+<div className='absolute flex items-center gap-2 top-0 right-0'>
   {!modalIsOpen && (
     <>
       <button 
       onClick={onCancel}
-      className='-z-0'>
-        <ButtonFill>Cancel</ButtonFill>
+      className='-z-0 rounded-full hover:bg-red-200 duration-300'>
+        <FiX />
       </button>
 
     </>
@@ -73,7 +68,7 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
 
 {
   previewUrl && (
-      <Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
+  <Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
   <Image
   src={previewUrl}
   alt={imageData?.name || "Uploaded image"}

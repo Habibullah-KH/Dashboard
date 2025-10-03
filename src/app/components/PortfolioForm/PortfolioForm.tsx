@@ -21,8 +21,6 @@ export default function PortfolioForm() {
 
   const [loading, setLoading] = useState(false);
 
-  // state for url funciton error prevent
-  const [urlCheck, setUrlCheck] = useState(true)
   // final object for mongodb
   const data = {
     title:title, 
