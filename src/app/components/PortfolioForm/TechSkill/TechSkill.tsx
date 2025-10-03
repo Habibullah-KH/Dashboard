@@ -17,7 +17,8 @@ export default function TechSkill({
     skill, 
     setSkill, 
     skillIcon, 
-    setSkillIcon}:propType) 
+    setSkillIcon
+  }:propType) 
 
 {
   const [isClient, setIsClient] = useState(false);

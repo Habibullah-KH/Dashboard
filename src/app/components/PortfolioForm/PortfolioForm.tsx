@@ -8,16 +8,21 @@ import Loading from '../Loading/Loading';
 import { imageUpload } from '@/app/lib/utils/imageUpload';
 import TechSkill from './TechSkill/TechSkill';
 
+
 export default function PortfolioForm() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [liveLink, setLiveLink] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [liveLink, setLiveLink] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
   const [skillIcon, setSkillIcon] = useState<File[]>([]);
   const [skill, setSkill] = useState<string>('');
   const [imagebbUrl, setImagebbUrl] = useState<File[]>([]);
+
+
   const [loading, setLoading] = useState(false);
 
+  // state for url funciton error prevent
+  const [urlCheck, setUrlCheck] = useState(true)
   // final object for mongodb
   const data = {
     title:title, 
@@ -28,13 +33,39 @@ export default function PortfolioForm() {
 
   }
 
+  const checkUrl = () => {
+    let parseUrl;
+     try{
+      parseUrl = new URL(liveLink);
+     }
+    catch (error){
+    toast.error('please put valide url');
+    return false;
+    }
+
+    const isValidProtocol = parseUrl.protocol === "http:" || parseUrl.protocol === "https:"
+
+    if(!isValidProtocol){
+      toast.error("URL must start with http:// or https://")
+    }
+
+  return isValidProtocol;
+  }
 
   const handleSubmit = async() => {
-    if(!title || !description || images.length === 0){
+    if(!title ||
+       !description ||
+       images.length === 0 ||
+       !liveLink
+      ){
       return toast.error('Please fill the form properly');
     }
-    setLoading(true);
 
+    if(!checkUrl()){
+      return;
+    }
+    setLoading(true);
+    
     try{
 
       //image upload on mongoDB - 1
@@ -64,7 +95,7 @@ export default function PortfolioForm() {
     }
     catch(error){
       console.error(error);
-      toast.error('Failed to submit portfolio.');
+      return toast.error('Failed to submit portfolio.');
     }
     finally{
       setLoading(false);

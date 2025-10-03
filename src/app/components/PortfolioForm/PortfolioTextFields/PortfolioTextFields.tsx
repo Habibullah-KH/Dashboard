@@ -51,8 +51,8 @@ export default function PortfolioTextFields(
   type="text" 
   id="fname" 
   name="fname"
-  value={title}
-  onChange={e => onTitleChange(e.target.value)}
+  value={liveLInk}
+  onChange={e => onLiveLInkChange(e.target.value)}
   placeholder='Live link'
   />
 </form>
