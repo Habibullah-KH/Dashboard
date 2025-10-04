@@ -130,7 +130,7 @@ setImages={setImages}
 
 <TechSkill
 skillArray={skill}
-    addSkill={setSkill}
+addSkill={setSkill}
 />
 
 </div>

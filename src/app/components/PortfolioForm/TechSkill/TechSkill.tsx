@@ -4,15 +4,22 @@ import React, { useEffect, useState } from "react";
 import ButtonBorder from "../../Buttons/Button_border/ButtonBorder";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
-import ImageUpload from "../PortfolioMediaUploader/ImageUpload";
 import IconUpload from "../PortfolioMediaUploader/IconUpload";
 import ButtonFill from "../../Button_fill/ButtonFill";
+import SkillCard from "./SkillCard";
+
+export interface SkillData {
+    skillName: string;
+    skillIcon: File[];
+}
 
 type propType = {
-addSkill: React.Dispatch<React.SetStateAction<any[]>>;
+    addSkill: React.Dispatch<React.SetStateAction<SkillData[]>>;
+    skillArray: SkillData[];
 };
 
-export default function TechSkill({ addSkill }: propType){
+
+export default function TechSkill({ addSkill, skillArray }: propType){
   const [skillIcon, setSkillIcon] = useState<File[]>([]);
   const [skillName, setSkillName] = useState('');
   const [isClient, setIsClient] = useState(false);
@@ -28,6 +35,7 @@ export default function TechSkill({ addSkill }: propType){
  }
   }
 
+console.log(skillArray);
 
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,
@@ -82,6 +90,7 @@ export default function TechSkill({ addSkill }: propType){
   name="fname"
   placeholder='Title'
   onChange={e => setSkillName(e.target.value)}
+  value={skillName}
   />
   </form>
 </div>
@@ -121,7 +130,16 @@ className="w-[100px]">
 null
 }
 
+ {
+  skillArray.length ?
+  skillArray.map((skill, idx) => 
+    <SkillCard key={idx} img={skill?.skillIcon} text={skill?.skillName} onCancel={()=>addSkill(skillArray.filter((_, i) => i != idx))}/>
+  )
+  :
+  'mew'
+ }
  </div>
+
     </>
   );
 }

@@ -14,7 +14,6 @@ type propType = {
 
 export default function PortfolioMediaUploader({images, setImages}:propType) {
   const [isClient, setIsClient] = useState(false);
-console.log(images);
 
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
