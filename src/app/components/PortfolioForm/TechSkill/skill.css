@@ -1,26 +1,3 @@
-.bg_circel_white {
-  background-image: 
-  repeating-radial-gradient(circle at 50% -120%, #f3f2f2 0, #f3f2f2 1px, transparent 1px, transparent 40px);
-
-
-    /* radial-gradient(circle at  50% 250%, rgba(255, 0, 0, 0.442), transparent) */
-    
-}
-.bg_circel_black {
-  background-image: 
-      repeating-radial-gradient(circle at 50% -120%, #333333 0, #333333 1px, transparent 1px, transparent 40px);
-
-
-}
-
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
-  gap: 1.5rem;
-  justify-items: center;
-}
-
 .skill-card {
   border-radius: 0.3rem;
   cursor: pointer;
@@ -31,13 +8,4 @@
   width: fit;
   padding: 0.2rem 5px;
   transition: 0.3 ease-in-out;
-  border: 1px solid black;
-}
-
-
-.skill-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 5px var(--clr-primary);
-  background-image: var(--gradient-primary);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

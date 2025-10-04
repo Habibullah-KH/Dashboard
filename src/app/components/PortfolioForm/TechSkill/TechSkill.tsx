@@ -130,16 +130,21 @@ className="w-[100px]">
 null
 }
 
+</div>
+
+<div className={`flex gap-2 flex-wrap justify-center mb-2 p-2 rounded-md
+  ${skillArray.length === 0 ? 'bg-white' : 'bg-gray-200'}
+  `}>
+
  {
   skillArray.length ?
   skillArray.map((skill, idx) => 
     <SkillCard key={idx} img={skill?.skillIcon} text={skill?.skillName} onCancel={()=>addSkill(skillArray.filter((_, i) => i != idx))}/>
   )
   :
-  'mew'
+  null
  }
- </div>
-
+</div>
     </>
   );
 }

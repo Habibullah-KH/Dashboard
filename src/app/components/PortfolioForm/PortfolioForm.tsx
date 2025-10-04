@@ -6,7 +6,7 @@ import ButtonFill from '../Button_fill/ButtonFill';
 import { toast } from 'react-toastify';
 import Loading from '../Loading/Loading';
 import { imageUpload } from '@/app/lib/utils/imageUpload';
-import TechSkill from './TechSkill/TechSkill';
+import TechSkill, {SkillData} from './TechSkill/TechSkill';
 
 
 export default function PortfolioForm() {
@@ -14,10 +14,8 @@ export default function PortfolioForm() {
   const [description, setDescription] = useState('');
   const [liveLink, setLiveLink] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
-  const [imagebbUrl, setImagebbUrl] = useState<File[]>([]);
-  const [skill, setSkill] = useState<File[]>([]);
-
-console.log(skill);
+  const [imagebbUrl, setImagebbUrl] = useState<string[]>([]);
+  const [skill, setSkill] = useState<SkillData[]>([]);
 
   const [loading, setLoading] = useState(false);
 

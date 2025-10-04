@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image'; 
 import Loading from '../../Loading/Loading';
 import './skill.css'
-import ButtonFill from '../../Button_fill/ButtonFill';
+import { FiX } from "react-icons/fi";
+
 type SkillCardProps = {
     img: File[]; 
     text: string;
@@ -25,6 +26,7 @@ export default function SkillCard({img, text, onCancel}: SkillCardProps) {
         }, [img])
   return (
     <>
+    <div className='border-2 hover:border-transparent duration-300 flex rounded-md pr-2 w-fit'>
         {
             previewUrl?
             <div className='skill-card'>
@@ -42,11 +44,12 @@ export default function SkillCard({img, text, onCancel}: SkillCardProps) {
             <Loading/>    
     }
 
-          <button 
-          onClick={onCancel}
-          className='-z-0'>
-            <ButtonFill>Cancel</ButtonFill>
-          </button>
+      <button 
+      onClick={onCancel}
+      className='-z-0 rounded-full duration-300 hover:text-red-500 font-bold hover:font-extrabold'>
+        <FiX />
+      </button>
+      </div>
     </>
   )
 }
