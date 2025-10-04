@@ -10,14 +10,14 @@ import TechSkill from './TechSkill/TechSkill';
 
 
 export default function PortfolioForm() {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [liveLink, setLiveLink] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
-  const [skillIcon, setSkillIcon] = useState<File[]>([]);
-  const [skill, setSkill] = useState<string>('');
   const [imagebbUrl, setImagebbUrl] = useState<File[]>([]);
+  const [skill, setSkill] = useState<File[]>([]);
 
+console.log(skill);
 
   const [loading, setLoading] = useState(false);
 
@@ -129,10 +129,8 @@ setImages={setImages}
 />
 
 <TechSkill
-skill={skill}
-setSkill={setSkill}
-skillIcon={skillIcon}
-setSkillIcon={setSkillIcon}
+skillArray={skill}
+    addSkill={setSkill}
 />
 
 </div>

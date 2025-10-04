@@ -9,22 +9,18 @@ import IconUpload from "../PortfolioMediaUploader/IconUpload";
 import ButtonFill from "../../Button_fill/ButtonFill";
 
 type propType = {
-  skill:string;
-  setSkill:React.Dispatch<React.SetStateAction<string>>;
-  skillIcon: File[];
-  setSkillIcon: React.Dispatch<React.SetStateAction<File[]>>;
+addSkill: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
-export default function TechSkill({
-    skill, 
-    setSkill, 
-    skillIcon, 
-    setSkillIcon
-  }:propType) 
-
-{
+export default function TechSkill({ addSkill }: propType){
+  const [skillIcon, setSkillIcon] = useState<File[]>([]);
+  const [skillName, setSkillName] = useState('');
   const [isClient, setIsClient] = useState(false);
-console.log(skillIcon);
+
+  const data = {
+    skillName: skillName,
+    skillIcon: skillIcon
+  }
 
   const onDrop = (acceptedFiles: File[]) => {
  if(acceptedFiles && acceptedFiles.length > 0){
@@ -64,6 +60,12 @@ console.log(skillIcon);
 
 
   if (!isClient) return null;
+
+  function handleSelection () {
+    addSkill(prevSkill => [...prevSkill, data]);
+    setSkillName('');
+    setSkillIcon([]);
+  }
   return (
     <>
 <h2>Select skill</h2>
@@ -79,6 +81,7 @@ console.log(skillIcon);
   id="fname" 
   name="fname"
   placeholder='Title'
+  onChange={e => setSkillName(e.target.value)}
   />
   </form>
 </div>
@@ -107,9 +110,16 @@ console.log(skillIcon);
 : null
 }
 
-<button>
+{
+  skillIcon.length && skillName.length ?
+<button 
+onClick={handleSelection}
+className="w-[100px]">
   <ButtonFill>select</ButtonFill>
 </button>
+:
+null
+}
 
  </div>
     </>
