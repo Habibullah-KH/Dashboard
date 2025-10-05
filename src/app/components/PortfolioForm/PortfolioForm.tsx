@@ -16,7 +16,7 @@ export default function PortfolioForm() {
   const [images, setImages] = useState<File[]>([]);
   const [imagebbUrl, setImagebbUrl] = useState<string[]>([]);
   const [skill, setSkill] = useState<SkillData[]>([]);
-  const [iconUrl, setIconUrl] = useState<File[]>([]);
+  const [iconUrl, setIconUrl] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
 
@@ -78,7 +78,7 @@ export default function PortfolioForm() {
       });
 
       const iconUrls = await Promise.all(iconUploadPromises);
-      setIconUrl(iconUrls.filter(url => url !== ''));
+      setIconUrl(iconUrl.filter(url => url !== ''));
 
   // final object for mongodb
   const data = {
@@ -113,6 +113,8 @@ export default function PortfolioForm() {
       setImages([]);
       setTitle('');
       setDescription('');
+      setSkill([]);
+      setLiveLink('');
     }
   }
 

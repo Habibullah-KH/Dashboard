@@ -35,9 +35,6 @@ export default function TechSkill({ addSkill, skillArray }: propType){
  }
   }
 
-console.log(skillArray);
-
-
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,
     accept: {
       "image/jpeg" : [".jpeg", ".jpg"],
@@ -76,9 +73,10 @@ console.log(skillArray);
   }
   return (
     <>
-<h2>Select skill</h2>
+    <div className="max-w-[728px] mx-auto">
+<h2> Select skill</h2>
 
- <div className="text-sm p-5 flex items-center justify-center">
+ <div className="text-sm p-5 flex items-center justify-center rounded-md bg-gray-100 mt-2">
 
 <div>
   <form>
@@ -144,6 +142,7 @@ null
   :
   null
  }
+</div>
 </div>
     </>
   );
