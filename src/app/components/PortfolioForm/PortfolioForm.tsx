@@ -67,7 +67,6 @@ export default function PortfolioForm() {
         imageUrls.push(url);
       }
       setImagebbUrl(imageUrls);
-      console.log(imagebbUrl);
 
       const iconUploadPromises = skill.map( async (singleImgData) => {
         const fileToUpload = singleImgData && singleImgData.skillIcon.length > 0 ? singleImgData.skillIcon[0] : null;
@@ -78,13 +77,13 @@ export default function PortfolioForm() {
       });
 
       const iconUrls = await Promise.all(iconUploadPromises);
-      setIconUrl(iconUrl.filter(url => url !== ''));
+      setIconUrl(iconUrl.filter(url => url !== '' && url !== null));
 
   // final object for mongodb
   const data = {
     title:title, 
     description:description, 
-    images:imagebbUrl,
+    images:imageUrls,
     liveLink:liveLink,
     skills: skill.map((skill, index) => ({
       skillName: skill.skillName,
