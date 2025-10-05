@@ -16,18 +16,9 @@ export default function PortfolioForm() {
   const [images, setImages] = useState<File[]>([]);
   const [imagebbUrl, setImagebbUrl] = useState<string[]>([]);
   const [skill, setSkill] = useState<SkillData[]>([]);
-
+  const [iconUrl, setIconUrl] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // final object for mongodb
-  const data = {
-    title:title, 
-    description:description, 
-    images:imagebbUrl,
-    liveLink:liveLink,
-
-
-  }
 
   const checkUrl = () => {
     let parseUrl;
@@ -52,7 +43,8 @@ export default function PortfolioForm() {
     if(!title ||
        !description ||
        images.length === 0 ||
-       !liveLink
+       !liveLink ||
+       skill.length === 0
       ){
       return toast.error('Please fill the form properly');
     }
@@ -75,8 +67,31 @@ export default function PortfolioForm() {
         const url = await imageUpload(img);
         imageUrls.push(url);
       }
-
       setImagebbUrl(imageUrls && []);
+
+      const iconUploadPromises = skill.map( async (singleImgData) => {
+        const fileToUpload = singleImgData && singleImgData.skillIcon.length > 0 ? singleImgData.skillIcon[0] : null;
+        if(fileToUpload){
+          return imageUpload( fileToUpload);
+        }
+    return toast.error('unnable to upload image');
+      });
+
+      const iconUrls = await Promise.all(iconUploadPromises);
+      setIconUrl(iconUrls.filter(url => url !== ''));
+
+  // final object for mongodb
+  const data = {
+    title:title, 
+    description:description, 
+    images:imagebbUrl,
+    liveLink:liveLink,
+    skills: skill.map((skill, index) => ({
+      skillName: skill.skillName,
+      skillIcon: iconUrl[index]
+    }))
+
+  }
 
       //data POST (upload) mongoDB
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`, {
