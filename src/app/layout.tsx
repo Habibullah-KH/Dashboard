@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
+import MenuBar from "./components/Side_MenuBar/MenuBar";
 
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body
       >
         <ToastContainer />
+        <MenuBar/>
         {children}
       </body>
     </html>
