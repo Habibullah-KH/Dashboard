@@ -62,12 +62,12 @@ export default function PortfolioForm() {
 
       //image upload on mongoDB - 2
       const imageUrls = [];
-
       for (const img of images){
         const url = await imageUpload(img);
         imageUrls.push(url);
       }
-      setImagebbUrl(imageUrls && []);
+      setImagebbUrl(imageUrls);
+      console.log(imagebbUrl);
 
       const iconUploadPromises = skill.map( async (singleImgData) => {
         const fileToUpload = singleImgData && singleImgData.skillIcon.length > 0 ? singleImgData.skillIcon[0] : null;
