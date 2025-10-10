@@ -22,7 +22,7 @@ export default function MyPortfolio() {
   return (
     <>
 
-    <div className='w-3xl flex flex-col justify-center items-center p-5'>
+    <div className='w-3xl flex flex-col justify-center items-center mx-auto p-5'>
       {data.map((d, i) => <PortfolioCard key={i} data={d}/>)}
     </div>
     </>
