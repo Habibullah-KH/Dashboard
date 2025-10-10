@@ -1,13 +1,23 @@
 "use client"
+
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+
 export default function PortfolioCard({data}) {
 
+  const router = useRouter()
   const handleDelete = async (id) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`, {
       method: "DELETE"
     })
-    const data = (await res).json();
-    console.log(data);
+    const data = await res.json();
+    if (data.success) {
+    toast.success("Deleted successfully!");
+    router.refresh(); // refresh page to show new data
+  } else {
+    toast.error(data.message || "Failed to delete");
   }
+}
   return (
     <>
         <div>

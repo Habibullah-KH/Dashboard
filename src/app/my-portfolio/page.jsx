@@ -1,23 +1,22 @@
-"use client";
-import React, { useEffect, useState } from 'react'
+// "use client";
+// import React, { useEffect, useState } from 'react'
 import PortfolioCard from './component/PortfolioCard';
-import Loading from '../../app/components/Loading/Loading'
-export default function MyPortfolio() {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    useEffect(()=>{
-        const fetchPortfolioData = async () => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`)
-            const portfolioData = await res.json();
-            setData(portfolioData);
-            setLoading(false)
-        }
-        fetchPortfolioData();
-    }, [])
+// import Loading from '../../app/components/Loading/Loading'
+ const fetchPortfolioData = async () => {
+ const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`, {
+  cache: "no-store",
+ });
+ const portfolioData = await res.json();
+return portfolioData;
+}
+export default async function MyPortfolio() {
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
+    // useEffect(()=>{
 
-    if(loading){
-      return <Loading/>;
-    }
+    //     fetchPortfolioData();
+    // }, [])
+const data = await fetchPortfolioData()
 
   return (
     <>
