@@ -73,7 +73,7 @@ const MenuBar = () => {
           </Link>
 
           <Link
-            href="/all-portfolio"
+            href="/my-portfolio"
             className=" p-3 rounded-md text-center font-medium transition"
             onClick={() => setIsOpen(false)}
           >
