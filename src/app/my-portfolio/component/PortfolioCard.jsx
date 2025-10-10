@@ -1,13 +1,14 @@
 "use client"
 export default function PortfolioCard({data}) {
+  console.log(data);
   return (
     <>
-        <div className="border-2 border-amber-500 w-full ">
+        <div className="w-full ">
         <h2 className="font-bold text-2xl mb-7">My Work</h2>
 
         <section>
           <table >
-          <thead><
+          <thead className="text-center">
             <tr className="w-full">
               <th className="px-10">Project Name</th>
               <th className="px-10">Date</th>
@@ -17,23 +18,21 @@ export default function PortfolioCard({data}) {
           </thead>
 
           <tbody>
-          {data && data.length > 0 ? (
-            data.map((item, index) => {
+          {data ? (
              <tr
-                  key={index}
-                  className="hover:bg-gray-50 transition duration-200"
+                  className="hover:bg-gray-50 transition duration-200 bg-amber-100 rounded-md"
                 >
-                  <td className="px-4 py-3 border-b">{item.title}</td>
-                  <td className="px-4 py-3 border-b">{item.date}</td>
-                  <td className="px-4 py-3 border-b text-blue-600 cursor-pointer hover:underline">
+                  <td className="px-10 py-3">{data?.title}</td>
+                  <td className="px-10 py-3">{data?.date}</td>
+                  <td className="px-10 py-3 cursor-pointer">
                     Update
                   </td>
-                  <td className="px-4 py-3 border-b text-red-500 cursor-pointer hover:underline">
+                  <td className="px-10 py-3 text-red-500 cursor-pointer">
                     Delete
                   </td>
                 </tr>
-            })
-          )
+            )
+
            
            :
            (

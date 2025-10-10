@@ -19,6 +19,7 @@ export default function PortfolioForm() {
   const [iconUrl, setIconUrl] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const now = new Date();
 
   const checkUrl = () => {
     let parseUrl;
@@ -88,7 +89,12 @@ export default function PortfolioForm() {
     skills: skill.map((skill, index) => ({
       skillName: skill.skillName,
       skillIcon: iconUrl[index]
-    }))
+    })),
+
+    createdAt: now.toISOString,
+    date: now.toLocaleString("en-GB", {
+      day: '2-digit', month: 'short', year: 'numeric',
+    })
 
   }
 
