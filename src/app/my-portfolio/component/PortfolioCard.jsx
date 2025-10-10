@@ -1,12 +1,18 @@
 "use client"
 export default function PortfolioCard({data}) {
-  console.log(data);
+
+  const handleDelete = async (id) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`, {
+      method: "DELETE"
+    })
+    const data = (await res).json();
+    console.log(data);
+  }
   return (
     <>
-        <div className="w-full ">
-        <h2 className="font-bold text-2xl mb-7">My Work</h2>
+        <div>
 
-        <section>
+        <section className="overflow-x-scroll">
           <table >
           <thead className="text-center">
             <tr className="w-full">
@@ -27,13 +33,13 @@ export default function PortfolioCard({data}) {
                   <td className="px-10 py-3 cursor-pointer">
                     Update
                   </td>
-                  <td className="px-10 py-3 text-red-500 cursor-pointer">
+                  <td 
+                  onClick = {() => handleDelete(data?._id)}
+                  className="px-10 py-3 text-red-500 cursor-pointer">
                     Delete
                   </td>
                 </tr>
-            )
-
-           
+            )          
            :
            (
             <tr>

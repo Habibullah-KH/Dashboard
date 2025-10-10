@@ -21,9 +21,15 @@ export default function MyPortfolio() {
 
   return (
     <>
-
     <div className='w-3xl h-dvh flex flex-col justify-center items-center mx-auto p-5'>
-      {data.map((d, i) => <PortfolioCard key={i} data={d}/>)}
+    <h2 className="font-bold text-2xl mb-7">My Work</h2>
+      {data && data.length > 0 ?
+        data.map((d, i) => <PortfolioCard key={i} data={d}/>)
+        :
+        <div className='text-red-500'>
+          Empty!
+        </div>
+        }
     </div>
     </>
   )
