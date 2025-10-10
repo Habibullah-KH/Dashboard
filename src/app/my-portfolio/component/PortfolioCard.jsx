@@ -18,6 +18,8 @@ export default function PortfolioCard({data}) {
     toast.error(data.message || "Failed to delete");
   }
 }
+
+
   return (
     <>
         <div>
@@ -40,8 +42,8 @@ export default function PortfolioCard({data}) {
                 >
                   <td className="px-10 py-3">{data?.title}</td>
                   <td className="px-10 py-3">{data?.date}</td>
-                  <td className="px-10 py-3 cursor-pointer">
-                    Update
+                  <td className="px-10 py-3 cursor-pointer text-center">
+                    Edit
                   </td>
                   <td 
                   onClick = {() => handleDelete(data?._id)}
