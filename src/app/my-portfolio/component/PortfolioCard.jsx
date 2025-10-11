@@ -19,6 +19,9 @@ export default function PortfolioCard({data}) {
   }
 }
 
+const handleEdit = async (id) => {
+  router.push(`/my-portfolio/edit/${id}`)
+}
 
   return (
     <>
@@ -42,7 +45,9 @@ export default function PortfolioCard({data}) {
                 >
                   <td className="px-10 py-3">{data?.title}</td>
                   <td className="px-10 py-3">{data?.date}</td>
-                  <td className="px-10 py-3 cursor-pointer text-center">
+                  <td
+                   onClick={() = handleEdit(data?._id)}
+                   className="px-10 py-3 cursor-pointer text-center">
                     Edit
                   </td>
                   <td 

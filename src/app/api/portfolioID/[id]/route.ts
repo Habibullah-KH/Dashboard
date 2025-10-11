@@ -1,18 +1,30 @@
-import { collectionNameOpj } from './../../../lib/dbConnect';
 import dbConnect, { collectionNameOpj } from "@/app/lib/dbConnect";
 import { ObjectId } from "mongodb";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-// export const GET = async (req, { params }) => {
-// const p = await params;
-// const collection = dbConnect(collectionNameOpj.portfolioData);
-// const data = await collection.findOne({_id: new ObjectId(p.id)});
+interface Params{
+params: {id: string}
+}
 
-// return NextResponse.json(data);
-// }
+export const GET = async (req: Request, { params }: Params) => {
+try{
+    const {id} = await params;
+    const collection = dbConnect(collectionNameOpj.portfolioData);
+    const data = await collection.findOne({_id: new ObjectId(id)});
+    
+    return NextResponse.json(data);
+}
+catch (error) {
+        console.error("single get error:", error);
+        return NextResponse.json(
+            {success: false, message: "Failed to get portfolio"},
+            {status: 500}
+        );
+    }
+}
 
-export const DELETE = async (req, {params}) => {
+export const DELETE = async (req: Request, { params }: Params) => {
     try{
         const {id} = params;
         const collection = await dbConnect(collectionNameOpj.portfolioData);
@@ -42,7 +54,7 @@ export const DELETE = async (req, {params}) => {
     }
 }
 
-export const PATCH = async (req, {params}) => {
+export const PATCH = async (req: Request, { params }: Params) => {
     try{
         const {id} = params;
         const collection = await dbConnect(collectionNameOpj.portfolioData);
