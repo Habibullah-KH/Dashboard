@@ -131,8 +131,12 @@ export default function PortfolioForm() {
 <>
 <div className='h-full flex flex-col justify-center items-center p-5'>{/**parent container*/}
 
+<div className='md:w-3xl'>
+
+<p className='text-left'>Create portfolio</p>
+
 {/* form and media container */}
-<div className='w-3xl'
+<div
 >
 <PortfolioTextFields 
 title={title} 
@@ -159,6 +163,7 @@ addSkill={setSkill}
 <button onClick={handleSubmit} className='w-full'>
   <ButtonFill>Submit</ButtonFill>
 </button>
+</div>
 </div>
 
 </div>

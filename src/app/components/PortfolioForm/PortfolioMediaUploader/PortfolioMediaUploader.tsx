@@ -21,8 +21,6 @@ export default function PortfolioMediaUploader({images, setImages}:propType) {
  }
   }
 
-
-
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,
     accept: {
       "image/jpeg" : [".jpeg", ".jpg"],

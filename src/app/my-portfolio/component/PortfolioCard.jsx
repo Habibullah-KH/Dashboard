@@ -46,7 +46,7 @@ const handleEdit = async (id) => {
                   <td className="px-10 py-3">{data?.title}</td>
                   <td className="px-10 py-3">{data?.date}</td>
                   <td
-                   onClick={() = handleEdit(data?._id)}
+                   onClick={() => handleEdit(data?._id)}
                    className="px-10 py-3 cursor-pointer text-center">
                     Edit
                   </td>

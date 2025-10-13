@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { imageUpload } from '@/app/lib/utils/imageUpload';
 import TechSkill, { SkillData } from '@/app/components/PortfolioForm/TechSkill/TechSkill';
@@ -7,6 +7,7 @@ import Loading from '@/app/components/Loading/Loading';
 import PortfolioTextFields from '@/app/components/PortfolioForm/PortfolioTextFields/PortfolioTextFields';
 import PortfolioMediaUploader from '@/app/components/PortfolioForm/PortfolioMediaUploader/PortfolioMediaUploader';
 import ButtonFill from '@/app/components/Button_fill/ButtonFill';
+import { useParams } from 'next/navigation';
 
 
 export default function EditForm() {
@@ -18,9 +19,33 @@ export default function EditForm() {
   const [skill, setSkill] = useState<SkillData[]>([]);
   const [iconUrl, setIconUrl] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+  const [portfolio, setPortfolio] = useState(null);
+
+
+  useEffect(()=>{
+    const fetchPortfolio = async () => {
+      try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`);
+        const data = await res.json();
+        setPortfolio(data);
+
+        setTitle(data?.title || "");
+        setDescription(data?.description || "");
+        setLiveLink(data.liveLink || '');
+        setImages(data.images || "");
+        setSkill(data.skills || []);
+
+      } catch (error) {
+        console.error("Error fetching portfolio:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPortfolio();
+  }, []);
 
   const now = new Date();
-
   const checkUrl = () => {
     let parseUrl;
      try{
@@ -94,7 +119,7 @@ export default function EditForm() {
   }
 
       //data POST (upload) mongoDB
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${params.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`, {
       method: "PATCH",
       body: JSON.stringify(data),
     }
@@ -126,8 +151,12 @@ export default function EditForm() {
 <>
 <div className='h-full flex flex-col justify-center items-center p-5'>{/**parent container*/}
 
+<div className='md:w-3xl'>
+
+<p className='text-left'>Edit section</p>
+
 {/* form and media container */}
-<div className='w-3xl'
+<div className='w-full m'
 >
 <PortfolioTextFields 
 title={title} 
@@ -150,10 +179,11 @@ addSkill={setSkill}
 
 </div>
 
-<div className='w-2xl -z-0'>
+<div className='w-full -z-0'>
 <button onClick={handleSubmit} className='w-full'>
   <ButtonFill>Submit</ButtonFill>
 </button>
+</div>
 </div>
 
 </div>

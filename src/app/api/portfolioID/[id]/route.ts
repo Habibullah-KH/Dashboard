@@ -54,7 +54,7 @@ export const DELETE = async (req: Request, { params }: Params) => {
     }
 }
 
-export const PATCH = async (req: Request, { params }: Params) => {
+export const PUT = async (req: Request, { params }: Params) => {
     try{
         const {id} = params;
         const collection = await dbConnect(collectionNameOpj.portfolioData);
