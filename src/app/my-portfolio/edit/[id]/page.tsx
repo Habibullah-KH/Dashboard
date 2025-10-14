@@ -26,6 +26,7 @@ export default function EditForm() {
   useEffect(()=>{
     const fetchPortfolio = async () => {
       try{
+        setLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`);
         const data = await res.json();
         setPortfolio(data);

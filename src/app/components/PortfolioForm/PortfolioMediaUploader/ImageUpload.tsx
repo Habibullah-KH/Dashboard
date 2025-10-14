@@ -4,17 +4,20 @@ import React, { useEffect, useState } from 'react'
 import ButtonFill from '../../Button_fill/ButtonFill';
 import Modal from '../../modal/Modal';
 
-type ImageUploadProps = {imageData: File | null ;
+type ImageUploadProps = {
+imageData: File | string | null ;
 onCancel: () => void;
  };
 
 export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);;
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(()=>{
+        if(!imageData) return;
 
-        if(imageData){
+        // if image is a File create a local preview URL
+        if(imageData instanceof File){
             const url = URL.createObjectURL(imageData);
             setPreviewUrl(url)
 
@@ -22,6 +25,10 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
         }
     }, [imageData])
 
+        // if it's a string use directly
+        if(typeof imageData === "string"){
+          setPreviewUrl(imageData)
+        }
 
   return (
     <>
@@ -33,7 +40,7 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
 <div className='flex flex-row-reverse items-center gap-2 '>
 
 <div> {/*image text info*/}
-<h2>{imageData?.name}</h2>
+<h2>{imageData?.name ? imageData.name : "it's a preuploaded image"}</h2>
 <p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} KB</p>
 </div> {/*image text info end*/}
     
