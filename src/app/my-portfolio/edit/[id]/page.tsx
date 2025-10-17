@@ -44,7 +44,7 @@ export default function EditForm() {
       }
     };
     fetchPortfolio();
-  }, []);
+  }, [id]);
 
   const now = new Date();
   const checkUrl = () => {

@@ -31,10 +31,11 @@ export default function PortfolioMediaUploader({images, setImages}:propType) {
 
   const allowedExtensions = ["jpg", "jpeg", "png"];
 
+
   const checkImageFormat = () => {
 
     for (const image of images){
-
+      if(typeof image !== "string"){
       const check = image.name
         .substring(image.name.lastIndexOf(".") + 1)
         .toLowerCase();
@@ -42,7 +43,7 @@ export default function PortfolioMediaUploader({images, setImages}:propType) {
       if (!allowedExtensions.includes(check)) {
         setImages([]);
         return toast.error("Please upload a valid image (jpg, jpeg, png)");
-      }
+      }}
     };
     }
 

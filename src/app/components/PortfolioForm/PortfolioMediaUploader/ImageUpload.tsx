@@ -12,7 +12,7 @@ onCancel: () => void;
 export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+console.log(imageData);
     useEffect(()=>{
         if(!imageData) return;
 
@@ -23,12 +23,13 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
 
             return () => URL.revokeObjectURL(url);
         }
-    }, [imageData])
-
         // if it's a string use directly
         if(typeof imageData === "string"){
           setPreviewUrl(imageData)
         }
+    }, [imageData])
+
+
 
   return (
     <>
@@ -40,8 +41,8 @@ export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
 <div className='flex flex-row-reverse items-center gap-2 '>
 
 <div> {/*image text info*/}
-<h2>{imageData?.name ? imageData.name : "it's a preuploaded image"}</h2>
-<p>{imageData ? (imageData?.size / 1024).toFixed(2) : ""} KB</p>
+<h2>{imageData instanceof File ? imageData.name : "it's a preuploaded image"}</h2>
+<p>{imageData instanceof File ? (imageData?.size / 1024).toFixed(2) : "previouly uploaded"} KB</p>
 </div> {/*image text info end*/}
     
 <div> {/*image | image view*/}
@@ -53,7 +54,7 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
 <Image
   onClick={ () => setModalIsOpen(true)}
   src={previewUrl}
-  alt={imageData?.name || "Uploaded image"}
+  alt={typeof imageData === "string" ? imageData : imageData?.name}
   width={50}
   height={50}
   style={{ cursor: 'pointer', borderRadius: '10px', height: '50px', width: '50px'}}
@@ -84,7 +85,11 @@ style={{ border: 'none', background: 'none', padding: 0 }}>
       <Modal open={modalIsOpen} onClose={()=> setModalIsOpen(false)}>
   <Image
   src={previewUrl}
-  alt={imageData?.name || "Uploaded image"}
+  alt={
+  imageData instanceof File
+  ? imageData.name
+  : "Uploaded image"
+  }
   width={300}
   height={300}
   style={{ objectFit: 'contain'}}
