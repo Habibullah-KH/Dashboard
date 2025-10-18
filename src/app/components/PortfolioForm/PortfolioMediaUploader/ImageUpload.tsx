@@ -12,7 +12,7 @@ onCancel: () => void;
 export default function ImageUpload({imageData, onCancel} : ImageUploadProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-console.log(imageData);
+
     useEffect(()=>{
         if(!imageData) return;
 

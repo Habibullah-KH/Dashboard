@@ -1,15 +1,18 @@
 "use client";
-import React, { useState } from 'react';
-import PortfolioTextFields from './PortfolioTextFields/PortfolioTextFields';
-import PortfolioMediaUploader from './PortfolioMediaUploader/PortfolioMediaUploader';
-import ButtonFill from '../Button_fill/ButtonFill';
-import { toast } from 'react-toastify';
-import Loading from '../Loading/Loading';
-import { imageUpload } from '@/app/lib/utils/imageUpload';
-import TechSkill, {SkillData} from './TechSkill/TechSkill';
+
+import ButtonFill from "@/app/components/Button_fill/ButtonFill";
+import Loading from "@/app/components/Loading/Loading";
+import PortfolioMediaUploader from "@/app/components/PortfolioForm/PortfolioMediaUploader/PortfolioMediaUploader";
+import PortfolioTextFields from "@/app/components/PortfolioForm/PortfolioTextFields/PortfolioTextFields";
+import TechSkill, { SkillData } from "@/app/components/PortfolioForm/TechSkill/TechSkill";
+import { imageUpload } from "@/app/lib/utils/imageUpload";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 
-export default function PortfolioForm() {
+
+export default function EditForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [liveLink, setLiveLink] = useState<string>('');
@@ -18,9 +21,35 @@ export default function PortfolioForm() {
   const [skill, setSkill] = useState<SkillData[]>([]);
   const [iconUrl, setIconUrl] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+  const [portfolio, setPortfolio] = useState(null);
+
+  const router = useRouter();
+
+  useEffect(()=>{
+    const fetchPortfolio = async () => {
+      try{
+        setLoading(true);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`);
+        const data = await res.json();
+        setPortfolio(data);
+
+        setTitle(data?.title || "");
+        setDescription(data?.description || "");
+        setLiveLink(data.liveLink || '');
+        setImages(data.images || "");
+        setSkill(data.skills || []);
+
+      } catch (error) {
+        console.error("Error fetching portfolio:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPortfolio();
+  }, [id]);
 
   const now = new Date();
-
   const checkUrl = () => {
     let parseUrl;
      try{
@@ -57,11 +86,6 @@ export default function PortfolioForm() {
     
     try{
 
-      //image upload on mongoDB - 1
-      // const imgeUrls = await Promise.all(images.map(img => imageUpload(img)))
-      // console.log(imgeUrls);
-
-      //image upload on mongoDB - 2
       const imageUrls = [];
       for (const img of images){
         const url = await imageUpload(img);
@@ -71,15 +95,14 @@ export default function PortfolioForm() {
 
       const iconUploadPromises = skill.map( async (singleImgData) => {
         const fileToUpload = singleImgData && singleImgData.skillIcon.length > 0 ? singleImgData.skillIcon[0] : null;
-        console.log(fileToUpload);
         if(fileToUpload){
           return imageUpload( fileToUpload);
         }
-       return toast.error('unnable to upload image');
+    return toast.error('unnable to upload image');
       });
 
       const iconUrls = await Promise.all(iconUploadPromises);
-      setIconUrl(iconUrls.filter((url): url is string => Boolean(url)));
+      setIconUrl(iconUrl.filter(url => url !== '' && url !== null));
 
   // final object for mongodb
   const data = {
@@ -87,12 +110,12 @@ export default function PortfolioForm() {
     description:description, 
     images:imageUrls,
     liveLink:liveLink,
-    skills: skill.map((skillItem, index) => ({
-      skillName: skillItem.skillName,
+    skills: skill.map((skill, index) => ({
+      skillName: skill.skillName,
       skillIcon: iconUrl[index]
     })),
 
-    createdAt: now.toISOString(),
+    createdAt: now.toISOString,
     date: now.toLocaleString("en-GB", {
       day: '2-digit', month: 'short', year: 'numeric',
     })
@@ -100,15 +123,16 @@ export default function PortfolioForm() {
   }
 
       //data POST (upload) mongoDB
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioData`, {
-      method: "POST",
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/portfolioID/${id}`, {
+      method: "PUT",
       body: JSON.stringify(data),
     }
   
   );
   const postedResponse = await res.json();
-  console.log("POSTED DATA", postedResponse);
-  toast.success('Portfolio submitted successfully!')
+  console.log("UPDATED DATA", postedResponse);
+  toast.success('Portfolio updated successfully!')
+  router.push('/');
     }
     catch(error){
       console.error(error);
@@ -132,12 +156,12 @@ export default function PortfolioForm() {
 <>
 <div className='h-full flex flex-col justify-center items-center p-5'>{/**parent container*/}
 
-<div>
+<div className='md:w-3xl'>
 
-<p className='text-left'>Create portfolio</p>
+<p className='text-left'>Edit section</p>
 
 {/* form and media container */}
-<div
+<div className='w-full m'
 >
 <PortfolioTextFields 
 title={title} 
@@ -160,8 +184,8 @@ addSkill={setSkill}
 
 </div>
 
-<div className='w-2xl -z-0'>
-<button onClick={handleSubmit} className='w-full mx-auto'>
+<div className='w-full -z-0'>
+<button onClick={handleSubmit} className='w-full'>
   <ButtonFill>Submit</ButtonFill>
 </button>
 </div>

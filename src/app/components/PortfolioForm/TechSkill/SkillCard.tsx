@@ -11,10 +11,11 @@ type SkillCardProps = {
 }
 
 export default function SkillCard({img, text, onCancel}: SkillCardProps) {
+  console.log(img, text)
         const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     
         useEffect(()=>{
-
+           if(typeof img !== "string"){
             const file = img && img.length > 0 ? img[0] : null
     
             if(img){
@@ -22,16 +23,18 @@ export default function SkillCard({img, text, onCancel}: SkillCardProps) {
                 setPreviewUrl(url)
     
                 return () => URL.revokeObjectURL(url);
-            }
+            }}
+            setPreviewUrl(img);
         }, [img])
+        console.log(img);
   return (
     <>
-    <div className='border-2 hover:border-transparent duration-300 flex rounded-md pr-2 w-fit'>
+    <div className='border-2 hover:border-transparent duration-300 flex rounded-md pr-2 w-fit h-fit'>
         {
-            previewUrl?
+
             <div className='skill-card'>
             <Image 
-                src={previewUrl}
+                src={ previewUrl}
                 alt={`${text} || icon`}
                 width={20}         
                 height={20} 
@@ -39,9 +42,7 @@ export default function SkillCard({img, text, onCancel}: SkillCardProps) {
             />
             <p>{text}</p>
         </div>
-                :
 
-            <Loading/>    
     }
 
       <button 

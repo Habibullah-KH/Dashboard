@@ -71,6 +71,7 @@ export default function TechSkill({ addSkill, skillArray }: propType){
     setSkillName('');
     setSkillIcon([]);
   }
+  console.log(skillArray);
   return (
     <>
     <div className="max-w-[728px] mx-auto">
